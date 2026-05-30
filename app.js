@@ -3,7 +3,13 @@ const path = require("path");
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use("/android", express.static(path.join(__dirname, "android")));
+app.use("/android", express.static(path.join(__dirname, "android"), {
+  dotfiles: "allow",
+  index: false,
+  setHeaders: (res) => {
+    res.set("Cache-Control", "no-cache");
+  }
+}));
 
 app.get("/", (req, res) => res.send("ZN Battle Royale Server Online"));
 
